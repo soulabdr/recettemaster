@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Recipe</title>
+    <style>
+        /* Vos styles CSS existants */
+
+        /* Nouveau style pour l'aperçu de l'image */
+        .preview-image {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Recipe</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title">
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <!-- Champ pour télécharger la photo de la recette -->
+        <label for="photo">Photo:</label>
+        <input type="file" id="photo" name="photo">
+        <img id="preview" class="preview-image" src="#" alt="Preview Image">
+
+        <!-- Autres champs pour les informations de la recette -->
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <!-- Script JavaScript pour prévisualiser l'image -->
+    <script>
+        const photoInput = document.getElementById('photo');
+        const previewImg = document.getElementById('preview');
+
+        photoInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.src = "#";
+            }
+        });
+    </script>
+</body>
+</html>
